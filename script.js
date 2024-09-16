@@ -81,6 +81,14 @@ var comparePlayerScore = function(){
     return comparedValue;
 }
 
+var gameReset = function() {
+  gameState = DICE_ROLL; // declare the default game state
+
+  playerDiceRoll = [];
+  
+  currentPlayer = 1;
+  AllPlayersScore = []; // array to store the score of all the players
+};
 
 /** MAIN FUNCTION */
 var main = function (input) {
@@ -113,6 +121,8 @@ var main = function (input) {
 
   if(gameState == COMPARE_SCORE){
     myOutputValue = comparePlayerScore();
+
+    gameReset();
 
     return myOutputValue;
   }
