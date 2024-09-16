@@ -42,7 +42,7 @@ var playerRollDiceTwice = function() {
   return `Player ${currentPlayer}'s roll results are DICE 1: ${playerDiceRoll[0]} and DICE 2: ${playerDiceRoll[1]} <br><br> 
   Please input '1' or '2' to chose the order of which dice will come first`;
 }
-
+/** CALCULATE PLAYER SCORE */
 var playerScore = function(input){
   var playerScore;
 
@@ -60,6 +60,27 @@ var playerScore = function(input){
   playerDiceRoll = [];
   return `Player ${currentPlayer}'s chosen value is ${playerScore}`;
 }
+
+/**  */
+var comparePlayerScore = function(){
+  var comparedValue = `Player 1 score: ${AllPlayersScore[0]} <br>Player 2 score: ${AllPlayersScore[1]}`;
+
+    // P1 Win
+    if(AllPlayersScore[0] > AllPlayersScore[1]){
+      comparedValue = comparedValue + `<br>Player 1 Wins!`; 
+    }
+    // P2 Win
+    if(AllPlayersScore[0] < AllPlayersScore[1]){
+      comparedValue = comparedValue + `<br>Player 2 Wins!`; 
+    }
+    //Draw
+    if(AllPlayersScore[0] == AllPlayersScore[1]){
+      comparedValue = comparedValue + `<br>It is a Draw!`; 
+    }
+    
+    return comparedValue;
+}
+
 
 /** MAIN FUNCTION */
 var main = function (input) {
@@ -88,5 +109,11 @@ var main = function (input) {
       gameState = COMPARE_SCORE;
       return `${myOutputValue} <br><br> Press Submit to calculate the scores`
     }
+  }
+
+  if(gameState == COMPARE_SCORE){
+    myOutputValue = comparePlayerScore();
+
+    return myOutputValue;
   }
 };
