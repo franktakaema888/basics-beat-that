@@ -12,9 +12,13 @@
 // INIT GLOBAL VARIABLES
 var DICE_ROLL = "DICE_ROLL";
 var CHOOSE_DICE_ORDER = "CHOOSE_DICE_ORDER";
+var COMPARE_SCORE = "COMPARE_SCORE";
 var gameState = DICE_ROLL; // declare the default game state
 
 var playerDiceRoll = [];
+
+var currentPlayer = 1;
+var AllPlayersScore = []; // array to store the score of all the players
 
 /** ROLL DICE FUNCTION */
 var rollDice = function() {
@@ -35,22 +39,26 @@ var playerRollDiceTwice = function() {
 
   console.log(`The player has rolled ${playerDiceRoll}`);
 
-  return `The players roll results are DICE 1: ${playerDiceRoll[0]} and DICE 2: ${playerDiceRoll[1]} <br><br> 
+  return `Player ${currentPlayer}'s roll results are DICE 1: ${playerDiceRoll[0]} and DICE 2: ${playerDiceRoll[1]} <br><br> 
   Please input '1' or '2' to chose the order of which dice will come first`;
 }
 
 var playerScore = function(input){
+  var playerScore;
+
   if( input != 1 && input != 2){
     return `Please only input 1 or 2`;
   }
   if(input == 1){
-    var playerScore = String(playerDiceRoll[0]) + String(playerDiceRoll[1]);
-    return `The value you chose is ${playerScore}`;
+    playerScore = String(playerDiceRoll[0]) + String(playerDiceRoll[1]);
   }
   if(input == 2){
-    var playerScore = String(playerDiceRoll[1]) + String(playerDiceRoll[0]);
-    return `The value you chose is ${playerScore}`;
+    playerScore = String(playerDiceRoll[1]) + String(playerDiceRoll[0]);
   }
+
+  AllPlayersScore.push(playerScore);
+  playerDiceRoll = [];
+  return `Player ${currentPlayer}'s chosen value is ${playerScore}`;
 }
 
 /** MAIN FUNCTION */
@@ -67,8 +75,18 @@ var main = function (input) {
   }
 
   if(gameState == CHOOSE_DICE_ORDER){
-    console.log("Players currently choosing dice order");
+    console.log("Player currently choosing dice order");
     myOutputValue = playerScore(input);
-    return myOutputValue;
+
+    if(currentPlayer == 1){
+      currentPlayer = 2;
+      gameState = DICE_ROLL;
+      return `${myOutputValue} <br><br> It is now player 2's turn`
+    }
+
+    if(currentPlayer == 2){
+      gameState = COMPARE_SCORE;
+      return `${myOutputValue} <br><br> Press Submit to calculate the scores`
+    }
   }
 };
